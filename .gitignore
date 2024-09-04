@@ -3,5 +3,6 @@
 ################################################################################
 
 /Temp
-/Packages
 /Library
+/Packages/*
+!/Packages/manifest.json
