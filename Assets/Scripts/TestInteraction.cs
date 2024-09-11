@@ -5,8 +5,8 @@ public class ControllerScript : MonoBehaviour
 {
     public Camera sceneCamera;
 
-    public float rotationSpeed = 70.0f;
-    public float x = 0.01f;
+    public float rotationSpeed = 100.0f;
+    public float x = 0.0002f;
     private Vector3 scaleVector;
 
     public Vector3 minScale = Vector3.zero;
@@ -39,10 +39,13 @@ public class ControllerScript : MonoBehaviour
                 ScaleObject(true);
             }
         }
-        
+        if(OVRInput.GetDown(OVRInput.Button.Three))
+        {
+            ResetPosition();
+        }
 
 
-        // If user has just released Button A of right controller in this frame
+        /*// If user has just released Button A of right controller in this frame
         if (OVRInput.GetUp(OVRInput.Button.One))
         {
             // Play short haptic on right controller
@@ -56,15 +59,18 @@ public class ControllerScript : MonoBehaviour
         {
             // Assign left controller's position and rotation to cube
             transform.SetPositionAndRotation(OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch), OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch));
-        }
+        }*/
     }
 
+
+    // Reset
     void ResetPosition()
     {
-
+        transform.rotation = Quaternion.identity;
+        transform.localScale = new(0.05f, 0.05f, 0.05f);
     }
 
-    // ???????
+    // Rotation
     void RotateObject(Vector2 rightStickInput)
     {
         float t = rightStickInput.magnitude;
@@ -75,17 +81,17 @@ public class ControllerScript : MonoBehaviour
         transform.RotateAround(transform.position, cameraRight, rightStickInput.y * rotationSpeed * Time.deltaTime * t);
     }
     
-    // ??????
+    // Scaling
     void ScaleObject(bool b)
     {
         if (b)
         {
-            if(transform.localScale.x < 3f)
+            if(transform.localScale.x < 0.1f)
             transform.localScale += scaleVector;
         }
         else
         {
-            if(transform.localScale.x > 0.08f)
+            if(transform.localScale.x > 0.01f)
             transform.localScale -= scaleVector;
         }
     }
